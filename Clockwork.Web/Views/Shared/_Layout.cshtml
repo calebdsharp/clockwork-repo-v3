@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @*<title>@ViewBag.Title</title>*@
+    <title>AWH Clockwork - Caleb Sharp</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+    <script type="text/javascript" src="~/Scripts/index.js"></script>
+</head>
+<body onload="AllEntries()">
+    <nav class="navbar">
+        <h3>
+            AWH Clockwork Project <span class="navText">@ViewData["Version"] on @ViewData["Runtime"]</span>!
+        </h3>
+    </nav>
+
+    @RenderSection("index", required: false)
+<div>
+    @RenderBody()
+    <hr />
+    <footer>
+        <p class="text-center">&copy; @DateTime.Now.Year - Caleb Sharp - AWH Clockwork Project</p>
+    </footer>
+</div>
+</body>
+</html>

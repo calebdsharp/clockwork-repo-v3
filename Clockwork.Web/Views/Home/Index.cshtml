@@ -1,0 +1,34 @@
+﻿@{
+    IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();
+}
+
+@section index {
+    <head>
+        <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+        <script type="text/javascript" src="~/Scripts/moment.js"></script>
+        <script type="text/javascript" src="~/Scripts/index.js"></script>
+    </head>
+    <div id="main">
+        <div>
+            <h3 id="getTimeHeader">Choose a Timezone:</h3>
+            <div class="select">
+                <span class="arr"></span>
+                <select id="selectTimezone">
+                    @* display available timezones from TimeZoneInfo *@
+                    @* info.id returns "id" (name) for each timezone *@
+                    @foreach (TimeZoneInfo info in timeZoneInfos)
+                    {
+                        <option value="@info.Id">@info.Id</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div>
+            <button id="currBttn" type="button" onclick="UserAction()">Get the Time</button>
+            <div id="outputDiv">
+            </div>
+        </div>
+        <div id="dbInfo">
+        </div>
+    </div>
+}
