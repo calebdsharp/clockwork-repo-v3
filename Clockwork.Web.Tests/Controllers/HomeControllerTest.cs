@@ -19,7 +19,7 @@ namespace Clockwork.Web.Tests.Controllers
             var controller = new HomeController();
 
             // Act
-            var result = (ViewResult)controller.Index();
+            var result = (ViewResult)controller.GetTimes();
 
             var mvcName = typeof(Controller).Assembly.GetName();
             var isMono = Type.GetType("Mono.Runtime") != null;

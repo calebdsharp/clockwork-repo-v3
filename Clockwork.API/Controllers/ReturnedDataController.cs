@@ -4,16 +4,17 @@ using Clockwork.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Clockwork.API.Service;
-using System.Collections.Generic;
+using System.Net;
+using System.IO;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Clockwork.API.Controllers
-{   [Route("api/returneddata")]
+{
     public class ReturnedDataController : Controller
     {
         //GET: api/returneddata
-       [HttpGet]
+        [HttpGet("api/returneddata")]
         public IActionResult Get()
         {
             // get all entries to return

@@ -7,7 +7,7 @@ namespace Clockwork.API.Service
     internal struct ClockWorkRepository
     {
         public static IOrderedQueryable<CurrentTimeQuery> FetchAll()
-        {   // get each entry
+        {   // get all entries
             var db = new ClockworkContext();
             IOrderedQueryable<CurrentTimeQuery> timeQueries =
                 from query in db.CurrentTimeQueries

@@ -1,8 +1,8 @@
-﻿@{
-    IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();
-}
+﻿@*@{
+        IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();
+    } *@
 
-@section index {
+@*      @section index {
     <head>
         <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
         <script type="text/javascript" src="~/Scripts/moment.js"></script>
@@ -15,8 +15,8 @@
                 <span class="arr"></span>
                 <select id="selectTimezone">
                     @* display available timezones from TimeZoneInfo *@
-                    @* info.id returns "id" (name) for each timezone *@
-                    @foreach (TimeZoneInfo info in timeZoneInfos)
+@* info.id returns "id" (name) for each timezone *@
+@*  @foreach (TimeZoneInfo info in timeZoneInfos)
                     {
                         <option value="@info.Id">@info.Id</option>
                     }
@@ -31,4 +31,8 @@
         <div id="dbInfo">
         </div>
     </div>
-}
+*@
+
+<h2>
+    @ViewBag.Message
+</h2>
