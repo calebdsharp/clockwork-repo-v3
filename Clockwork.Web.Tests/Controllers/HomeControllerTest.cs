@@ -9,6 +9,7 @@ using Clockwork.Web.Controllers;
 
 namespace Clockwork.Web.Tests.Controllers
 {
+
     [TestFixture]
     public class HomeControllerTest
     {
@@ -19,7 +20,7 @@ namespace Clockwork.Web.Tests.Controllers
             var controller = new HomeController();
 
             // Act
-            var result = (ViewResult)controller.GetTimes();
+            var result = controller.Index();            
 
             var mvcName = typeof(Controller).Assembly.GetName();
             var isMono = Type.GetType("Mono.Runtime") != null;

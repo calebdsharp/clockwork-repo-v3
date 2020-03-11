@@ -9,7 +9,7 @@
                 }
                 response.json().then(function (myObj) {
                     console.log(myObj);
-                    // new entry object
+                    // new entry object 
                     const newTimeZoneInfo = myObj.newEntry;
                     // all entries from CurrentTime API / Controller
                     const entries = myObj.allEntries;

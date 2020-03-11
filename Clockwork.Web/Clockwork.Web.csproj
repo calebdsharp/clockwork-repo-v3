@@ -77,6 +77,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -89,7 +90,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Models\CurrentTimeView.cs" />
+    <Compile Include="Models\Models.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
@@ -103,7 +104,6 @@
     <Content Include="Content\style.css" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\Index.js" />
-    <Content Include="Views\Home\Welcome.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
