@@ -1,5 +1,5 @@
-﻿@model IEnumerable<IGrouping<int, Clockwork.Web.Models.RequestedTimesModel>>
-
+﻿@*@model IEnumerable<IGrouping<int, Clockwork.Web.Models.RequestedTimesModel>>*@
+@model Clockwork.Web.Models.AllTimesViewModel
 
 @{
     IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();
@@ -14,40 +14,65 @@
         <div>
             <h3 id="getTimeHeader">Choose a Timezone:</h3>
             <div class="select">
-                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "TheForm" }))
                 {
                     @Html.DropDownList("Timezones", "Select Time")
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Get Time" />
                 }
-                @*display available timezones from TimeZoneInfo
-                    info.id returns "id" (name) for each timezone*@
-                @* @foreach (TimeZoneInfo info in timeZoneInfos)
-                    {
-                        <option value="@info.Id">@info.Id</option>
-                    }*@
+                <div class="dbInfo">
+                    <ul>
+                        <li> Timezone: @Html.DisplayFor(m => m.CurrentTimeRequest.TimeZone) </li>
+                        <li> Time:  @Html.DisplayFor(m => m.CurrentTimeRequest.Time) </li>
+                        <li> ClientIp: @Html.DisplayFor(m => m.CurrentTimeRequest.ClientIp) </li>
+                        <li> UTCTime: @Html.DisplayFor(m => m.CurrentTimeRequest.UTCTime) </li>
+                        <li> CurrentTimeQueryId: @Html.DisplayFor(m => m.CurrentTimeRequest.CurrentTimeQueryId) </li>
+                    </ul>
+                </div>
+                @* display available timezones from TimeZoneInfo
+                                    info.id returns "id" (name) for each timezone
+                    @* @foreach (TimeZoneInfo info in timeZoneInfos)
+                        {
+                            <option value="@info.Id">@info.Id</option>
+                        }*@
             </div>
         </div>
         <div>
-            <button id="currBttn" type="button">Get the Time</button>
-            <div id="outputDiv">
-                <p>The time in <strong>@ViewBag.Timezone</strong> is @ViewBag.Time</p>
+                @foreach (var time in Model.RequestedTimes)
+                {
+                    <div class="dbInfo">
+                        <ul>
+                            <li>Timezone: @time.TimeZone</li>
+                            <li>Time: @time.Time</li>
+                            <li>Client Ip: @time.ClientIp</li>
+                            <li>UTC Time: @time.UTCTime</li>
+                            <li>CurrentTimeQueryId: @time.CurrentTimeQueryId</li>
+
+                        </ul>
+                    </div>
+                }
+
             </div>
-        </div>
-        @foreach (var timeGroup in Model)
-        {
-            <div id="dbInfo">
-                <ul>
-                    @foreach (var item in timeGroup)
-                    {
-                        <li>TimeZone: @item.TimeZone</li>
-                        <li>Time: @item.Time</li>
-                        <li>ClientIp: @item.ClientIp</li>
-                        <li>UTCTime: @item.UTCTime</li>
-                        <li>TimeQueryId: @timeGroup.Key</li>
-                    }
-                </ul>
-            </div>
-        }
+        @* <div>
+                <button id="currBttn" type="button">Get the Time</button>
+                <div id="outputDiv">
+                    <p>The time in <strong>@ViewBag.Timezone</strong> is @ViewBag.Time</p>
+                </div>
+            </div>*@
+        @*  @foreach (var timeGroup in Model)
+            {
+                <div id="dbInfo">
+                    <ul>
+                        @foreach (var item in timeGroup)
+                        {
+                            <li>TimeZone: @item.TimeZone</li>
+                            <li>Time: @item.Time</li>
+                            <li>ClientIp: @item.ClientIp</li>
+                            <li>UTCTime: @item.UTCTime</li>
+                            <li>TimeQueryId: @timeGroup.Key</li>
+                        }
+                    </ul>
+                </div>
+            }*@
 
     </div>
 }

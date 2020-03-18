@@ -120,11 +120,11 @@ button {
     }
 
 
-#dbInfo {
+.dbInfo {
     margin-top: 2rem;
 }
 
-#dbInfo > ul {list-style-type: none;}
+.dbInfo > ul {list-style-type: none;}
     
 footer {
     padding: 0.15rem;

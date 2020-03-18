@@ -26,6 +26,12 @@ namespace Clockwork.Web.Models
         public DateTime UTCTime { get; set; }
         public string TimeZone { get; set; }
     }
+
+    public class AllTimesViewModel
+    {
+        public CurrentTimeRequestModel CurrentTimeRequest { get; set; }
+        public List<RequestedTimesModel> RequestedTimes { get; set; }
+    }
 }
 
 
