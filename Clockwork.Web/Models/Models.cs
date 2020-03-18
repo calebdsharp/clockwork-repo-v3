@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Clockwork.Web.Models
 {
-    public class TimesList
+    public class RequestedTimesModel
     {
         public int CurrentTimeQueryId { get; set; }
         public DateTime Time { get; set; }
@@ -18,7 +18,7 @@ namespace Clockwork.Web.Models
         public string TimeZone { get; set; }
     }
 
-    public class RequestedTime
+    public class CurrentTimeRequestModel
     {
         public int CurrentTimeQueryId { get; set; }
         public DateTime Time { get; set; }
@@ -27,3 +27,5 @@ namespace Clockwork.Web.Models
         public string TimeZone { get; set; }
     }
 }
+
+

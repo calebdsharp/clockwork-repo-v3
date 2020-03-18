@@ -13,22 +13,6 @@ namespace Clockwork.API.Controllers
 
     public class CurrentTimeController : Controller
     {
-        //[HttpGet("api/all")]
-        //public IEnumerable<Person> GetAll()
-        //{
-        //    return new[]
-        //    {
-        //    new Person { Name = "Ana" },
-        //    new Person { Name = "Felipe" },
-        //    new Person { Name = "Emillia" }
-        //};
-
-        //}
-        //public class Person
-        //{
-        //    public string Name { get; set; }
-        //}
-
         [HttpGet("api/currenttime")]
         public IActionResult Get(string timezone)
         {
@@ -58,14 +42,6 @@ namespace Clockwork.API.Controllers
             return Ok(newEntry);
         }
 
-        [HttpGet("api/alltimes")]
-        public IEnumerable<CurrentTimeQuery> GetAllTimes()
-        {
-            var allTimes = ClockWorkRepository.FetchAll();
- 
-            return allTimes;
-        }
-
         // pass timezone to method
         private TimeZoneInfo ParseTimeZone(string timezone)
         {
@@ -81,5 +57,14 @@ namespace Clockwork.API.Controllers
                 return null;
             }
         }
+
+        [HttpGet("api/alltimes")]
+        public IEnumerable<CurrentTimeQuery> GetAllTimes()
+        {
+            var allTimes = ClockWorkRepository.FetchAll();
+
+            return allTimes;
+        }
+
     }
 }

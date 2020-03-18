@@ -1,34 +1,36 @@
-﻿@model IEnumerable<IGrouping<int, Clockwork.Web.Models.TimesList>>
+﻿@model IEnumerable<IGrouping<int, Clockwork.Web.Models.RequestedTimesModel>>
+
 
 @{
     IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();
 }
 
-@section index {
+@section Index {
     <head>
         <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
-        @* <script type="text/javascript" src="~/Scripts/moment.js"></script>*@
         <script type="text/javascript" src="~/Scripts/index.js"></script>
     </head>
     <div id="main">
         <div>
-            <h1>@ViewBag.Message</h1>
             <h3 id="getTimeHeader">Choose a Timezone:</h3>
             <div class="select">
-                <span class="arr"></span>
-                <select id="selectTimezone">
-                    @*display available timezones from TimeZoneInfo
-                info.id returns "id" (name) for each timezone *@
-                    @foreach (TimeZoneInfo info in timeZoneInfos)
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.DropDownList("Timezones", "Select Time")
+                    <input type="submit" value="Submit" />
+                }
+                @*display available timezones from TimeZoneInfo
+                    info.id returns "id" (name) for each timezone*@
+                @* @foreach (TimeZoneInfo info in timeZoneInfos)
                     {
                         <option value="@info.Id">@info.Id</option>
-                    }
-                </select>
+                    }*@
             </div>
         </div>
         <div>
             <button id="currBttn" type="button">Get the Time</button>
             <div id="outputDiv">
+                <p>The time in <strong>@ViewBag.Timezone</strong> is @ViewBag.Time</p>
             </div>
         </div>
         @foreach (var timeGroup in Model)
@@ -46,5 +48,6 @@
                 </ul>
             </div>
         }
+
     </div>
 }

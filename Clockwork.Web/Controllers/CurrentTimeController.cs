@@ -1,47 +1,38 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Net.Http;
-//using System.Web;
-//using System.Web.Mvc;
-//using Clockwork.Web.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using Clockwork.Web.Models;
 
-//namespace Clockwork.Web.Controllers
-//{
-//    [Route("api/currenttime")]
-//    public class CurrentTimeController : Controller
-//    {
-//        // GET: CurrentTime
-//        [HttpGet]
-//        public ActionResult Index()
-//        { 
-//            IEnumerable<CurrentTimeViewModel> currentTime = null;
+namespace Clockwork.Web.Controllers
+{
+    public class CurrentTimeController : Controller
+    {
+        private static HttpClient client;
 
-//            using (var client = new HttpClient())
-//            {
-//                client.BaseAddress = new Uri("http://localhost:5000/api/");
-//                //HTTP GET
-//                var responseTask = client.GetAsync("currenttime");
-//                responseTask.Wait();
+        [HttpPost]
+        public ActionResult Index(string timezone)
+        {
+            client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:5000/");
 
-//                var result = responseTask.Result;
-//                if (result.IsSuccessStatusCode)
-//                {
-//                    var readTask = result.Content.ReadAsAsync<IList<CurrentTimeViewModel>>();
-//                    readTask.Wait();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-//                    currentTime = readTask.Result;
-//                }
-//                else //web api sent error response 
-//                {
-//                    //log response status here..
+            string selectedTimeResponse = client.GetStringAsync("http://localhost:5000/api/currenttime?timezone=" + "America/Los_Angeles").Result;
 
-//                    currentTime = Enumerable.Empty<CurrentTimeViewModel>();
+            var selectedTime = new JavaScriptSerializer().Deserialize<List<CurrentTimeRequestModel>>(selectedTimeResponse);
 
-//                    ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-//                }
-//            }
-//            return View(currentTime);
-//        }
-//    }
-//}
+            //ViewBag.Timezone = selectedTime.TimeZone.ToString();
+            //ViewBag.Time = selectedTime.Time.ToString();
+
+            var selectedTimeModel = selectedTime.GroupBy(item => item.CurrentTimeQueryId).ToArray();
+
+            return View(selectedTimeModel);
+        }
+    }
+}

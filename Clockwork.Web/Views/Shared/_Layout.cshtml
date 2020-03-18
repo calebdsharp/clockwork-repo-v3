@@ -12,14 +12,13 @@
             AWH Clockwork Project !
         </h3>
     </nav>
-
-    @RenderSection("index", required: false)
-<div>
-    @RenderBody()
-    <hr />
-    <footer>
-        <p class="text-center">&copy; @DateTime.Now.Year - Caleb Sharp - AWH Clockwork Project</p>
-    </footer>
-</div>
+    @RenderSection("Index", required: false)
+    <div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p class="text-center">&copy; @DateTime.Now.Year - Caleb Sharp - AWH Clockwork Project</p>
+        </footer>
+    </div>
 </body>
 </html>

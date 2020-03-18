@@ -1,0 +1,16 @@
+﻿@* @foreach (var timeGroup in Model)
+            {
+                <div id="dbInfo">
+                    <ul>
+                        @foreach (var item in timeGroup)
+                        {
+                            <li>TimeZone: @item.TimeZone</li>
+                            <li>Time: @item.Time</li>
+                            <li>ClientIp: @item.ClientIp</li>
+                            <li>UTCTime: @item.UTCTime</li>
+                            <li>TimeQueryId: @timeGroup.Key</li>
+                        }
+                    </ul>
+                </div>
+            }
+    }*@
