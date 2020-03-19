@@ -72,12 +72,10 @@ namespace Clockwork.Web.Controllers
                 SelectListItem item = new SelectListItem() { Text = info.Id, Value = info.Id };
                 items.Add(item);
             }
-
             var model = new AllTimesViewModel
             {
                 Timezones = items
             };
-
             //model.CurrentTimeRequest = GetCurrentTime();
             model.RequestedTimes = GetRequestedTimes();
 
@@ -85,7 +83,7 @@ namespace Clockwork.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string SelectedTimezoneId, AllTimesViewModel model)
+        public async Task<ActionResult> Index(string SelectedTimezoneId, AllTimesViewModel model)
         {
             try
             {
@@ -96,10 +94,16 @@ namespace Clockwork.Web.Controllers
 
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    string selectedTimeResponse = client.GetStringAsync("http://localhost:5000/api/currenttime?timezone=" + SelectedTimezoneId).Result;
-
-                    var selectedTime = new JavaScriptSerializer().Deserialize<CurrentTimeRequestModel>(selectedTimeResponse);
-
+                    HttpResponseMessage responseMessage = await client.GetAsync("http://localhost:5000/api/currenttime?timezone=" + SelectedTimezoneId);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var selectedTime = new JavaScriptSerializer().Deserialize<CurrentTimeRequestModel>(responseData);
+                        if (selectedTime == null)
+                        {
+                            return HttpNotFound();
+                        }
+                    }
                     return RedirectToAction("Index");
                 }
                 return View();
@@ -109,29 +113,6 @@ namespace Clockwork.Web.Controllers
                 return View();
             }
         }
-
-        //public CurrentTimeRequestModel GetCurrentTime()
-        //{
-        //    client = new HttpClient();
-        //    client.BaseAddress = new Uri("http://localhost:5000/");
-
-        //    client.DefaultRequestHeaders.Accept.Clear();
-        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        //    string selectedTimeResponse = client.GetStringAsync("http://localhost:5000/api/currenttime?timezone=" + "America/New_York").Result;
-
-        //    var selectedTime = new JavaScriptSerializer().Deserialize<CurrentTimeRequestModel>(selectedTimeResponse);
-
-        //    CurrentTimeRequestModel model = new CurrentTimeRequestModel()
-        //    {
-        //        CurrentTimeQueryId = selectedTime.CurrentTimeQueryId,
-        //        Time = selectedTime.Time,
-        //        ClientIp = selectedTime.ClientIp,
-        //        UTCTime = selectedTime.UTCTime,
-        //        TimeZone = selectedTime.TimeZone
-        //    };
-
-        //    return model;
-        //}
 
         public List<RequestedTimesModel> GetRequestedTimes()
         {
