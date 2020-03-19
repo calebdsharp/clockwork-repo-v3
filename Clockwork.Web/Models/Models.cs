@@ -31,6 +31,8 @@ namespace Clockwork.Web.Models
     {
         public CurrentTimeRequestModel CurrentTimeRequest { get; set; }
         public List<RequestedTimesModel> RequestedTimes { get; set; }
+        public string SelectedTimezoneId { get; set; }
+        public IEnumerable<SelectListItem> Timezones { get; set; }
     }
 }
 
