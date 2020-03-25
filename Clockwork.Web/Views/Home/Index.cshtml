@@ -1,20 +1,20 @@
 ﻿@model Clockwork.Web.Models.AllTimesViewModel
 
 @section Index {
-    <head>
-        <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
-    </head>
-    @* <h3 id="getTimeHeader">Choose a Timezone:</h3>
+    @*  <head>
+            <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+        </head>*@
+    @*<h3 id="getTimeHeader">Choose a Timezone:</h3>
         @using (Html.BeginForm("Index", "Home", FormMethod.Post))
         {
             @Html.DropDownListFor(m => m.SelectedTimezoneId, Model.Timezones, "--Select a Timezone--", new { id = "zone" })
             <br />
             <input type="submit" value="Get Time" onclick="ShowCurrentTime()" />
         }*@
-    @* <div id="currentTimePartial" style="display: none">
-            <p>The time in @Html.DisplayFor(m => m.CurrentTimeRequest.TimeZone) is @Html.DisplayFor(m => m.CurrentTimeRequest.Time)</p>
-        </div>*@
-
+    @* <div id="currentTimeDiv">
+            <p id="currentTimeText">The time in @Html.DisplayFor(m => m.CurrentTimeRequest.TimeZone) is @Html.DisplayFor(m => m.CurrentTimeRequest.Time)</p>
+        </div>
+    *@
     @* <p>The time in @Html.DisplayFor(m => m.CurrentTimeRequest.TimeZone) is @Html.DisplayFor(m => m.CurrentTimeRequest.Time)</p>*@
     @* <div>
             @foreach (var time in Model.RequestedTimes)

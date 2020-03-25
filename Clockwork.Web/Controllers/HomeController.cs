@@ -17,23 +17,6 @@ namespace Clockwork.Web.Controllers
 
         public ActionResult Index()
         {
-            //List<SelectListItem> items = new List<SelectListItem>();
-            //IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();
-            //foreach (TimeZoneInfo info in timeZoneInfos)
-            //{
-            //    //var times = new SelectListGroup { Name = info.Id };
-            //    SelectListItem item = new SelectListItem() { Text = info.Id, Value = info.Id };
-            //    items.Add(item);
-            //}
-
-            //var model = new AllTimesViewModel
-            //{
-            //    Timezones = items
-            //};
-            //var model = new AllTimesViewModel();
-            //model.CurrentTimeRequest = currentTimeRequestModel;
-
-            //return View(model);
             return View();
         }
 
@@ -84,11 +67,12 @@ namespace Clockwork.Web.Controllers
                         {
                             return HttpNotFound();
                         }
-                        CurrentTimeRequestModel model = new CurrentTimeRequestModel();
-                        model.TimeZone = SelectedTimezoneId;
-                        model.Time = selectedTime.Time;
+                        //CurrentTimeRequestModel model = new CurrentTimeRequestModel();
+                        //model.TimeZone = SelectedTimezoneId;
+                        //model.Time = selectedTime.Time;
 
-                        return RedirectToAction("Index", model);
+                        return Json(selectedTime, JsonRequestBehavior.AllowGet);
+                        //return RedirectToAction("Index", responseData);
                         //return RedirectToAction("GetCurrentTime", "Home", new { TimeZone = SelectedTimezoneId});
                     }
                 }

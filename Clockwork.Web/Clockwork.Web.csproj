@@ -104,7 +104,8 @@
     <Content Include="Content\style.css" />
     <Content Include="Views\Home\ShowAllTimes.cshtml" />
     <Content Include="Views\Home\ShowCurrentTime.cshtml" />
-    <Content Include="Views\Home\TimezoneOptions.cshtml" />
+    <Content Include="Views\Shared\TimezoneOptions.cshtml" />
+    <Content Include="Scripts\moment.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

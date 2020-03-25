@@ -26,11 +26,11 @@ body {
     padding: 2rem 0 2rem 2rem;
 }
 
-.dbInfo {
+#dbInfo {
     margin-top: 2rem;
 }
 
-    .dbInfo > ul {
+    #dbInfo > ul {
         list-style-type: none;
     }
 
