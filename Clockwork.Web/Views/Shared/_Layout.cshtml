@@ -4,9 +4,10 @@
     <title>@ViewBag.Title AWH - Clockwork</title>
     <meta charset="utf-8" />
     <script type="text/javascript" src="~/Scripts/moment.js"></script>
+    <script type="text/javascript" src="~/Scripts/script.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
 </head>
-<body>
+<body onload="AllEntries()">
     <nav class="navbar">
         <h3>
             AWH Clockwork Project !
@@ -14,9 +15,6 @@
     </nav>
     <div class="main">
         @RenderSection("Index", required: false)
-        @Html.Action("TimezoneOptions")
-        @Html.Action("ShowCurrentTime")
-        @Html.Action("ShowAllTimes")
         @RenderBody()
     </div>
     <div>
@@ -27,33 +25,3 @@
     </div>
 </body>
 </html>
-<script>document.getElementById('myButton').addEventListener('click', function (e) {
-
-        const selectedTimezoneId = document.getElementById('zone').value;
-
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-
-                const currentTimeObject = JSON.parse(this.responseText);
-                console.log(currentTimeObject);
-
-                const currentTimezone = currentTimeObject.TimeZone;
-                console.log(currentTimezone);
-
-                const currentTime = moment(currentTimeObject.Time).format('LTS');
-                console.log(currentTime);
-
-                const timeDiv = document.getElementById('currentTimeDiv');
-                timeDiv.style.display = "block";
-
-                document.getElementById('currentTimeText').innerHTML = 'The time in ' + currentTimezone + ' is: ' + currentTime;
-
-            }
-        };
-        xhr.open('POST', '/Home/Index?SelectedTimezoneId=' + selectedTimezoneId, true);
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send();
-
-
-    }, false);</script>

@@ -6,8 +6,17 @@ namespace Clockwork.API.Service
 {
     internal struct ClockWorkRepository
     {
+        public static void InsertNewEntry(CurrentTimeQuery newEntry)
+        {
+            // insert new entry to database
+            var db = new ClockworkContext();
+            db.CurrentTimeQueries.Add(newEntry);
+            Console.WriteLine("{0} records(s) saved to database", db.SaveChanges());
+        }
+
         public static IOrderedQueryable<CurrentTimeQuery> FetchAll()
-        {   // get all entries
+        {
+            // get all entries
             var db = new ClockworkContext();
             IOrderedQueryable<CurrentTimeQuery> timeQueries =
                 from query in db.CurrentTimeQueries
@@ -15,12 +24,6 @@ namespace Clockwork.API.Service
                 select query;
 
             return timeQueries;
-        }
-        public static void InsertNewEntry(CurrentTimeQuery newEntry)
-        {   // insert new entry to database
-            var db = new ClockworkContext();
-            db.CurrentTimeQueries.Add(newEntry);
-            Console.WriteLine("{0} records(s) saved to database", db.SaveChanges());
         }
     }
 }

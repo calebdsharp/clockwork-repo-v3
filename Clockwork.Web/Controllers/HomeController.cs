@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Clockwork.Web.Models;
@@ -12,21 +10,14 @@ namespace Clockwork.Web.Controllers
 {
     public class HomeController : Controller
     {
-
         private static HttpClient client;
 
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult TimezoneOptions()
         {
             List<SelectListItem> items = new List<SelectListItem>();
             IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();
             foreach (TimeZoneInfo info in timeZoneInfos)
             {
-                //var times = new SelectListGroup { Name = info.Id };
                 SelectListItem item = new SelectListItem() { Text = info.Id, Value = info.Id };
                 items.Add(item);
             }
@@ -36,64 +27,55 @@ namespace Clockwork.Web.Controllers
                 Timezones = items
             };
 
-            return PartialView("TimezoneOptions", model);
+            return View(model);
         }
 
-        public ActionResult ShowCurrentTime(CurrentTimeRequestModel currentTimeRequestModel)
-        {
-            var model = new AllTimesViewModel();
-            model.CurrentTimeRequest = currentTimeRequestModel;
-            return PartialView("ShowCurrentTime", model);
-        }
-
+        // Post request for Timezone selection : passing selected value as query parameter
         [HttpPost]
-        public async Task<ActionResult> Index(string SelectedTimezoneId)
+        public ActionResult Index(string SelectedTimezoneId)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                client = new HttpClient();
+                client.BaseAddress = new Uri("http://localhost:5000/");
+
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                string responseMessage = client.GetStringAsync("http://localhost:5000/api/currenttime?timezone=" + SelectedTimezoneId).Result;
+                if (responseMessage != null)
                 {
-                    client = new HttpClient();
-                    client.BaseAddress = new Uri("http://localhost:5000/");
-
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage responseMessage = await client.GetAsync("http://localhost:5000/api/currenttime?timezone=" + SelectedTimezoneId);
-                    if (responseMessage.IsSuccessStatusCode)
+                    // create JSON object : selectedTime
+                    var selectedTime = new JavaScriptSerializer().Deserialize<CurrentTimeRequestModel>(responseMessage);
+                    if (selectedTime == null)
                     {
-                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-                        var selectedTime = new JavaScriptSerializer().Deserialize<CurrentTimeRequestModel>(responseData);
-                        if (selectedTime == null)
-                        {
-                            return HttpNotFound();
-                        }
-                        //CurrentTimeRequestModel model = new CurrentTimeRequestModel();
-                        //model.TimeZone = SelectedTimezoneId;
-                        //model.Time = selectedTime.Time;
-
-                        return Json(selectedTime, JsonRequestBehavior.AllowGet);
-                        //return RedirectToAction("Index", responseData);
-                        //return RedirectToAction("GetCurrentTime", "Home", new { TimeZone = SelectedTimezoneId});
+                        return HttpNotFound();
                     }
+                    return Json(selectedTime, JsonRequestBehavior.AllowGet);
                 }
-                return View();
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
-        public ActionResult ShowAllTimes()
-        {
-            var model = new AllTimesViewModel();
-            model.RequestedTimes = GetRequestedTimes();
+        //public ActionResult TimezoneOptions()
+        //{
+        //    List<SelectListItem> items = new List<SelectListItem>();
+        //    IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();
+        //    foreach (TimeZoneInfo info in timeZoneInfos)
+        //    {
+        //        SelectListItem item = new SelectListItem() { Text = info.Id, Value = info.Id };
+        //        items.Add(item);
+        //    }
 
-            return PartialView("ShowAllTimes", model);
-        }
+        //    var model = new AllTimesViewModel
+        //    {
+        //        Timezones = items
+        //    };
 
-        // GET lit of requested times
-        public List<RequestedTimesModel> GetRequestedTimes()
+        //    return PartialView("TimezoneOptions", model);
+        //}
+
+        // GET: lit of requested times
+        public ActionResult GetRequestedTimes()
         {
             client = new HttpClient();
             client.BaseAddress = new Uri("http://localhost:5000/");
@@ -104,10 +86,9 @@ namespace Clockwork.Web.Controllers
 
             // deserialize JSON
             var alltimes = new JavaScriptSerializer().Deserialize<List<RequestedTimesModel>>(response);
-            // reverse List order
-            var reverseAllTimes = Enumerable.Reverse(alltimes).ToList();
 
-            return reverseAllTimes;
+            return Json(alltimes, JsonRequestBehavior.AllowGet);
+            //return reverseAllTimes;
         }
     }
 }

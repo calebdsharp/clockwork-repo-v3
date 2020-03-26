@@ -1,34 +1,25 @@
 ﻿@model Clockwork.Web.Models.AllTimesViewModel
 
 @section Index {
-    @*  <head>
-            <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
-        </head>*@
-    @*<h3 id="getTimeHeader">Choose a Timezone:</h3>
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-        {
-            @Html.DropDownListFor(m => m.SelectedTimezoneId, Model.Timezones, "--Select a Timezone--", new { id = "zone" })
-            <br />
-            <input type="submit" value="Get Time" onclick="ShowCurrentTime()" />
-        }*@
-    @* <div id="currentTimeDiv">
-            <p id="currentTimeText">The time in @Html.DisplayFor(m => m.CurrentTimeRequest.TimeZone) is @Html.DisplayFor(m => m.CurrentTimeRequest.Time)</p>
-        </div>
-    *@
-    @* <p>The time in @Html.DisplayFor(m => m.CurrentTimeRequest.TimeZone) is @Html.DisplayFor(m => m.CurrentTimeRequest.Time)</p>*@
-    @* <div>
-            @foreach (var time in Model.RequestedTimes)
-            {
-                <div class="dbInfo">
-                    <ul>
-                        <li>Timezone: @time.TimeZone</li>
-                        <li>Time: @time.Time</li>
-                        <li>Client Ip: @time.ClientIp</li>
-                        <li>UTC Time: @time.UTCTime</li>
-                        <li>CurrentTimeQueryId: @time.CurrentTimeQueryId</li>
 
-                    </ul>
-                </div>
-            }
-        </div>*@
+    <h3 id="getTimeHeader">Choose a Timezone:</h3>
+
+    @Html.DropDownListFor(m => m.SelectedTimezoneId, Model.Timezones, "--Select a Timezone--", new { id = "zone" })
+    <br />
+    <button type="button" value="Get Time" id="myButton" onclick="ShowCurrentTime(); AllEntries()">Get Time</button>
+
+    <div id="currentTimeDiv">
+        <p id="currentTimeText"></p>
+    </div>
+
+    <div id="timezoneDiv">
+    </div>
+
+    <input type="button" id="first" onclick="firstPage()" value="first" />
+    <input type="button" id="next" onclick="nextPage()" value="next" />
+    <input type="button" id="previous" onclick="previousPage()" value="previous" />
+    <input type="button" id="last" onclick="lastPage()" value="last" />
+
+    <div id="list"></div>
+    </div>
 }

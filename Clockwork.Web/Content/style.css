@@ -26,13 +26,21 @@ body {
     padding: 2rem 0 2rem 2rem;
 }
 
-#dbInfo {
+#currentTimeDiv {
+    display: none;
+}
+
+#timezoneDiv {
     margin-top: 2rem;
 }
 
-    #dbInfo > ul {
+    #timezoneDiv > ul {
         list-style-type: none;
     }
+
+span {
+    font-weight: bold;
+}
 
 footer {
     padding: 0.15rem;

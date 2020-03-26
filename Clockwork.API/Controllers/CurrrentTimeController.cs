@@ -2,15 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Clockwork.API.Models;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Clockwork.API.Service;
-using System.Collections.ObjectModel;
-using System.Collections;
-using System.Linq;
 
 namespace Clockwork.API.Controllers
 {
-
     public class CurrentTimeController : Controller
     {
         [HttpGet("api/currenttime")]
@@ -61,10 +56,10 @@ namespace Clockwork.API.Controllers
         [HttpGet("api/alltimes")]
         public IEnumerable<CurrentTimeQuery> GetAllTimes()
         {
+            //get all time from Clockwork Repo
             var allTimes = ClockWorkRepository.FetchAll();
 
             return allTimes;
         }
-
     }
 }
