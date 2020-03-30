@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Net.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace Clockwork.API.Models
 {

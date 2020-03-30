@@ -1,4 +1,4 @@
-﻿function ShowCurrentTime() {
+﻿function ShowTimes() {
 
     const selectedTimezoneId = document.getElementById('zone').value;
 
@@ -6,16 +6,23 @@
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
 
-            const currentTimeObject = JSON.parse(this.responseText);
+            const allTimesObject = JSON.parse(this.response);
+            console.log(allTimesObject)
 
+            const currentTimeObject = allTimesObject.CurrentTimeRequestModel;
             const currentTimezone = currentTimeObject.TimeZone;
 
             const currentTime = moment(currentTimeObject.Time).format('LTS');
 
-            const timeDiv = document.getElementById('currentTimeDiv');
-            timeDiv.style.display = "block";
-
             document.getElementById('currentTimeText').innerHTML = 'The time in ' + currentTimezone + ' is: ' + currentTime;
+
+            const requestedTimesObject = allTimesObject.RequestedTimesModel;
+
+            requestedTimesObject.push(currentTimeObject)
+
+            requestedTimesObject.reverse();
+
+            DisplayTimes(requestedTimesObject)
 
         }
     };
@@ -32,51 +39,11 @@ function AllEntries() {
                     console.log('Something went wrong. Status code: ' + response.status);
                     return;
                 }
-                response.json().then(function (myData) {
+                response.json().then(function myList(myData) {
 
                     myData.reverse();
-                    myData.forEach(timezone => {
 
-
-                        const timeDiv = document.getElementById('timezoneDiv')
-
-                        const timezoneList = document.createElement('ul')
-                        timezoneList.setAttribute('class', 'timezoneList')
-
-                        // Timezone Name
-                        const timezoneName = document.createElement('li')
-                        timezoneName.setAttribute('class', 'timezoneName')
-                        timezoneName.textContent = `Timezone: ${timezone.TimeZone}`;
-
-                        //Timezone Time
-                        const timezoneTime = document.createElement('li')
-                        timezoneTime.setAttribute('class', 'timezoneTime')
-                        timezoneTime.textContent = `Time: ${moment(timezone.Time).format('LTS')}`;
-
-                        // Timezone ClientIP
-                        const timezoneClientIp = document.createElement('li')
-                        timezoneClientIp.setAttribute('class', 'timezoneCleintIp')
-                        timezoneClientIp.textContent = `ClientIp: ${timezone.ClientIp}`;
-
-                        // Timezone UTCTime
-                        const timezoneUTCTime = document.createElement('li')
-                        timezoneUTCTime.setAttribute('class', 'timezoneUTCTime')
-                        timezoneUTCTime.textContent = `UTCTime: ${moment(timezone.UTCTime).format('LTS')}`;
-
-                        // Timezone CurrentTimeQueryId
-                        const timezoneCurrentTimeQueryId = document.createElement('li')
-                        timezoneCurrentTimeQueryId.setAttribute('class', 'timezoneCurrentTimeQueryId')
-                        timezoneCurrentTimeQueryId.textContent = `CurrentTimeQueryId: ${timezone.CurrentTimeQueryId}`;
-
-                        timeDiv.appendChild(timezoneList)
-
-                        timezoneList.appendChild(timezoneName)
-                        timezoneList.appendChild(timezoneTime)
-                        timezoneList.appendChild(timezoneClientIp)
-                        timezoneList.appendChild(timezoneUTCTime)
-                        timezoneList.appendChild(timezoneCurrentTimeQueryId)
-
-                    })
+                    DisplayTimes(myData)
 
                 });
             })
@@ -85,62 +52,52 @@ function AllEntries() {
         });
 }
 
-const list = new Array();
-const pageList = new Array();
-var currentPage = 1;
-const numberPerPage = 10;
-var numberOfPages = 1;
 
-function getNumberOfPages() {
-    return Math.ceil(list.length / numberPerPage);
-}
+function DisplayTimes(requestedTimesObject) {
 
-list.push(myData)
-console.log(list)
-numberOfPages = getNumberOfPages();
-console.log(numberOfPages)
+    document.getElementById('timezoneDiv').innerHTML = "";
 
-function nextPage() {
-    currentPage += 1;
-    loadList();
-}
-function previousPage() {
-    currentPage -= 1;
-    loadList();
-}
-function firstPage() {
-    currentPage = 1;
-    loadList();
-}
-function lastPage() {
-    currentPage = numberOfPages;
-    loadList();
-}
-function loadList() {
-    var begin = ((currentPage - 1) * numberPerPage);
-    var end = begin + numberPerPage;
+    requestedTimesObject.forEach(timezone => {
 
-    pageList = list.slice(begin, end);
-    drawList();    // draws out our data
-    check();         // determines the states of the pagination buttons
-}
-function drawList() {
-    document.getElementById("list").innerHTML = "";
 
-    for (r = 0; r < pageList.length; r++) {
-        document.getElementById("list").innerHTML += pageList[r] + "";
-    }
-}
-function check() {
-    document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
-    document.getElementById("previous").disabled = currentPage == 1 ? true : false;
-    document.getElementById("first").disabled = currentPage == 1 ? true : false;
-    document.getElementById("last").disabled = currentPage == numberOfPages ? true : false;
-}
+        const timeDiv = document.getElementById('timezoneDiv')
 
-function load() {
-    makeList();
-    loadList();
-}
+        const timezoneList = document.createElement('ul')
+        timezoneList.setAttribute('class', 'timezoneList')
 
+        // Timezone Name
+        const timezoneName = document.createElement('li')
+        timezoneName.setAttribute('class', 'timezoneName')
+        timezoneName.textContent = `Timezone: ${timezone.TimeZone}`;
+
+        //Timezone Time
+        const timezoneTime = document.createElement('li')
+        timezoneTime.setAttribute('class', 'timezoneTime')
+        timezoneTime.textContent = `Time: ${moment(timezone.Time).format('LTS')}`;
+
+        // Timezone ClientIP
+        const timezoneClientIp = document.createElement('li')
+        timezoneClientIp.setAttribute('class', 'timezoneCleintIp')
+        timezoneClientIp.textContent = `ClientIp: ${timezone.ClientIp}`;
+
+        // Timezone UTCTime
+        const timezoneUTCTime = document.createElement('li')
+        timezoneUTCTime.setAttribute('class', 'timezoneUTCTime')
+        timezoneUTCTime.textContent = `UTCTime: ${moment(timezone.UTCTime).format('LTS')}`;
+
+        // Timezone CurrentTimeQueryId
+        const timezoneCurrentTimeQueryId = document.createElement('li')
+        timezoneCurrentTimeQueryId.setAttribute('class', 'timezoneCurrentTimeQueryId')
+        timezoneCurrentTimeQueryId.textContent = `CurrentTimeQueryId: ${timezone.CurrentTimeQueryId}`;
+
+        timeDiv.appendChild(timezoneList)
+
+        timezoneList.appendChild(timezoneName)
+        timezoneList.appendChild(timezoneTime)
+        timezoneList.appendChild(timezoneClientIp)
+        timezoneList.appendChild(timezoneUTCTime)
+        timezoneList.appendChild(timezoneCurrentTimeQueryId)
+
+    })
+}
 
