@@ -1,8 +1,0 @@
-﻿@model Clockwork.Web.Models.AllTimesViewModel
-
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
-{
-    @Html.DropDownListFor(m => m.SelectedTimezoneId, Model.Timezones, "--Select a Timezone--", new { id = "zone" })
-    <br />
-    <input type="submit" value="Get Time" id="butn" />
-}
