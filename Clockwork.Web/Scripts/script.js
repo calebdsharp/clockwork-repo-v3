@@ -21,24 +21,6 @@
             response.json().then(function (currentTimeData) {
                 console.log(currentTimeData)
 
-                //const newTimezoneInfo = currentTimeData.CurrentTimeRequestModel;
-                //console.log(newTimezoneInfo);
-
-                //const entries = currentTimeData.RequestedTimesModel;
-                //console.log(entries);
-
-                //entries.push(newTimezoneInfo);
-                //console.log(entries);
-
-                //entries.reverse();
-                //console.log(entries);
-
-                //const newTimezone = newTimezoneInfo.timeZone;
-
-                //const newTime = moment(newTimezoneInfo.time).format('lll');
-
-                //document.getElementById('currentTimeText').textContent = 'The time in ' + newTimezone + ' is: ' + newTime;
-
                 // new entry object
                 const newTimezoneInfo = currentTimeData.newEntry;
                 // all entries from database : CurrentTimeController / API 
