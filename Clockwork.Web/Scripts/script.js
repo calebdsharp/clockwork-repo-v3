@@ -1,35 +1,66 @@
-﻿function ShowTimes() {
-
+﻿function AddNewTime() {
     const selectedTimezoneId = document.getElementById('zone').value;
-
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-
-            const allTimesObject = JSON.parse(this.response);
-            console.log(allTimesObject)
-
-            const currentTimeObject = allTimesObject.CurrentTimeRequestModel;
-            const currentTimezone = currentTimeObject.TimeZone;
-
-            const currentTime = moment(currentTimeObject.Time).format('LTS');
-
-            document.getElementById('currentTimeText').innerHTML = 'The time in ' + currentTimezone + ' is: ' + currentTime;
-
-            const requestedTimesObject = allTimesObject.RequestedTimesModel;
-
-            requestedTimesObject.push(currentTimeObject)
-
-            requestedTimesObject.reverse();
-
-            DisplayTimes(requestedTimesObject)
-
+    fetch('/Home/Index?SelectedTimezoneId=' + selectedTimezoneId, {
+        method: 'POST',
+        body: JSON.stringify({
+            TimeZone: this.TimeZone,
+            Time: this.Time,
+            ClientIp: this.ClientIp,
+            UTCTime: this.UTCTime,
+            CurrentTimeQueryId: this.CurrentTimeQueryId
+        }),
+        headers: {
+            'Content-type': 'application/json'
         }
-    };
-    xhr.open('POST', '/Home/Index?SelectedTimezoneId=' + selectedTimezoneId, true);
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.send();
+    })
+        .then(function (response) {
+            if (response.status != 200) {
+                console.log('Something went wrong. Status code: ' + response.status);
+                return;
+            }
+            response.json().then(function (currentTimeData) {
+                console.log(currentTimeData)
+
+                //const newTimezoneInfo = currentTimeData.CurrentTimeRequestModel;
+                //console.log(newTimezoneInfo);
+
+                //const entries = currentTimeData.RequestedTimesModel;
+                //console.log(entries);
+
+                //entries.push(newTimezoneInfo);
+                //console.log(entries);
+
+                //entries.reverse();
+                //console.log(entries);
+
+                //const newTimezone = newTimezoneInfo.timeZone;
+
+                //const newTime = moment(newTimezoneInfo.time).format('lll');
+
+                //document.getElementById('currentTimeText').textContent = 'The time in ' + newTimezone + ' is: ' + newTime;
+
+                // new entry object
+                const newTimezoneInfo = currentTimeData.newEntry;
+                // all entries from database : CurrentTimeController / API 
+                const entries = currentTimeData.allEntries;
+                // add new entry to top of the list
+                entries.reverse();
+                // timezone info for new entry
+                const timeZone = newTimezoneInfo.timeZone;
+                // timezone and time display  
+                const currentTime = moment(newTimezoneInfo.time).format('lll');
+
+                document.getElementById('currentTimeText').textContent = 'The time in ' + timeZone + ' is: ' + currentTime;
+
+                DisplayTimes(entries);
+            });
+        })
+        .catch(function (err) {
+            console.log('Fetch error', err);
+        });
+
 }
+
 
 function AllEntries() {
     fetch('Home/GetRequestedTimes')
@@ -39,7 +70,7 @@ function AllEntries() {
                     console.log('Something went wrong. Status code: ' + response.status);
                     return;
                 }
-                response.json().then(function myList(myData) {
+                response.json().then(function (myData) {
 
                     myData.reverse();
 
@@ -53,42 +84,41 @@ function AllEntries() {
 }
 
 
-function DisplayTimes(requestedTimesObject) {
+function DisplayTimes(entries) {
 
     document.getElementById('timezoneDiv').innerHTML = "";
 
-    requestedTimesObject.forEach(timezone => {
-
+    entries.forEach(timezone => {
 
         const timeDiv = document.getElementById('timezoneDiv')
 
         const timezoneList = document.createElement('ul')
         timezoneList.setAttribute('class', 'timezoneList')
 
-        // Timezone Name
+        // Timezone Name   
         const timezoneName = document.createElement('li')
         timezoneName.setAttribute('class', 'timezoneName')
-        timezoneName.textContent = `Timezone: ${timezone.TimeZone}`;
+        timezoneName.textContent = `Timezone: ${timezone.timeZone}`;
 
         //Timezone Time
         const timezoneTime = document.createElement('li')
         timezoneTime.setAttribute('class', 'timezoneTime')
-        timezoneTime.textContent = `Time: ${moment(timezone.Time).format('LTS')}`;
+        timezoneTime.textContent = `Time: ${moment(timezone.time).format('lll')}`;
 
         // Timezone ClientIP
         const timezoneClientIp = document.createElement('li')
         timezoneClientIp.setAttribute('class', 'timezoneCleintIp')
-        timezoneClientIp.textContent = `ClientIp: ${timezone.ClientIp}`;
+        timezoneClientIp.textContent = `ClientIp: ${timezone.clientIp}`;
 
         // Timezone UTCTime
         const timezoneUTCTime = document.createElement('li')
         timezoneUTCTime.setAttribute('class', 'timezoneUTCTime')
-        timezoneUTCTime.textContent = `UTCTime: ${moment(timezone.UTCTime).format('LTS')}`;
+        timezoneUTCTime.textContent = `UTCTime: ${moment(timezone.utcTime).format('lll')}`;
 
         // Timezone CurrentTimeQueryId
         const timezoneCurrentTimeQueryId = document.createElement('li')
         timezoneCurrentTimeQueryId.setAttribute('class', 'timezoneCurrentTimeQueryId')
-        timezoneCurrentTimeQueryId.textContent = `CurrentTimeQueryId: ${timezone.CurrentTimeQueryId}`;
+        timezoneCurrentTimeQueryId.textContent = `CurrentTimeQueryId: ${timezone.currentTimeQueryId}`;
 
         timeDiv.appendChild(timezoneList)
 

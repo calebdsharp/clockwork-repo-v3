@@ -33,8 +33,14 @@ namespace Clockwork.API.Controllers
             // insert new entry to database
             ClockWorkRepository.InsertNewEntry(newEntry);
 
+            var returnData = new Dictionary<string, object>
+            {
+                { "newEntry", newEntry },
+                { "allEntries", ClockWorkRepository.FetchAll() }
+            };
+
             // return new entry
-            return Ok(newEntry);
+            return Ok(returnData);
         }
 
         // pass timezone to method
