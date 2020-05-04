@@ -26,8 +26,12 @@ body {
     padding: 2rem 0 2rem 2rem;
 }
 
-#currentTimeDiv {
-    display: none;
+#requestedTimezonePartial {
+    margin-top: 1.5rem;
+}
+
+#requestedTimezoneDiv {
+    margin-top: 1rem;
 }
 
 #timezoneDiv {
