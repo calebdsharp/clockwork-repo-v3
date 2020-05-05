@@ -106,6 +106,7 @@
     <Content Include="Scripts\script.js" />
     <Content Include="Views\Home\RequestedTimezone.cshtml" />
     <Content Include="Views\Home\AvailableTimezones.cshtml" />
+    <Content Include="Views\Home\AlTimes.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

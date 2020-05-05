@@ -87,7 +87,7 @@ function DisplayTimes(entries) {
         timezoneClientIp.setAttribute('class', 'timezoneCleintIp')
         timezoneClientIp.textContent = `ClientIp: ${timezone.ClientIp}`;
 
-        // Timezone UTCTime
+        // Timezone UTCTime 
         const timezoneUTCTime = document.createElement('li')
         timezoneUTCTime.setAttribute('class', 'timezoneUTCTime')
         timezoneUTCTime.textContent = `UTCTime: ${moment(timezone.UTCTime).format('LT')}`;
