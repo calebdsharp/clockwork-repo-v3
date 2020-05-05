@@ -20,7 +20,7 @@ namespace Clockwork.Web.Controllers
             return View();
         }
 
-        public PartialViewResult AvailableTimezones()
+        public ActionResult AvailableTimezones()
         {
             List<SelectListItem> items = new List<SelectListItem>();
             IReadOnlyCollection<TimeZoneInfo> timeZoneInfos = TimeZoneInfo.GetSystemTimeZones();

@@ -21,11 +21,11 @@
 
             entries.reverse();
 
-            // timezone info for new entry  
+            // timezone info for new entry 
             const timeZone = currentTimeData.CurrentTimeQuery.TimeZone;
 
             // timezone and time display   
-            const currentTime = moment(currentTimeData.CurrentTimeQuery.Time).format('lll');
+            const currentTime = moment(currentTimeData.CurrentTimeQuery.Time).format('LT');
 
             currentTimeDiv.textContent = 'The time in ' + timeZone + ' is: ' + currentTime;
 
@@ -80,7 +80,7 @@ function DisplayTimes(entries) {
         //Timezone Time
         const timezoneTime = document.createElement('li')
         timezoneTime.setAttribute('class', 'timezoneTime')
-        timezoneTime.textContent = `Time: ${moment(timezone.Time).format('lll')}`;
+        timezoneTime.textContent = `Time: ${moment(timezone.Time).format('LT')}`;
 
         // Timezone ClientIP
         const timezoneClientIp = document.createElement('li')
@@ -90,7 +90,7 @@ function DisplayTimes(entries) {
         // Timezone UTCTime
         const timezoneUTCTime = document.createElement('li')
         timezoneUTCTime.setAttribute('class', 'timezoneUTCTime')
-        timezoneUTCTime.textContent = `UTCTime: ${moment(timezone.UTCTime).format('lll')}`;
+        timezoneUTCTime.textContent = `UTCTime: ${moment(timezone.UTCTime).format('LT')}`;
 
         // Timezone CurrentTimeQueryId
         const timezoneCurrentTimeQueryId = document.createElement('li')

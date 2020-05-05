@@ -7,7 +7,7 @@ namespace Clockwork.Web.Models
     public class AvailableTimezonesModel
     {
         public IEnumerable<SelectListItem> Timezones { get; set; }
-        public string SelectedTimezoneId { get; set; }
+        public string TimezoneName{ get; set; }
     }
 
     public class CurrentTimeQuery
