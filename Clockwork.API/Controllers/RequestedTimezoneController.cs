@@ -76,6 +76,12 @@ namespace Clockwork.API.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetTimeById(int currentTimeQueryId)
+        {
+            
+        }
+
+        [HttpGet]
         public IActionResult GetAllTimes()
         {
             //get all time from Clockwork Repo

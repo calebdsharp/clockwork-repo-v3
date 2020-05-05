@@ -30,6 +30,10 @@ body {
     margin-top: 1.5rem;
 }
 
+#requestedTimezoneHeader {
+    font-weight: bold;
+}
+
 #requestedTimezoneDiv {
     margin-top: 1rem;
 }
